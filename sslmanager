@@ -1,0 +1,271 @@
+#/bin/bash
+
+echo -e "\033[0;31m- - - - -> \033[00;33mScript Configurar o servidor para usar SSL/TLS Stunnel4"
+
+echo -e "\033[0;31m #################"
+
+echo -e "\033[0;31m- - - - -> \033[00;33mScript Configure the server to use SSL / TLS Stunnel4"
+
+echo -e "\033[0;31m #################"
+
+echo -e "\033[0;31mJORGE BARBA"
+
+sleep 2
+
+apt-get update -y
+
+clear
+
+yum update -y
+
+apt-get install openssh-server -y
+
+clear
+
+apt-get install curl -y
+
+clear
+
+yum install openssh-server -y
+
+clear
+
+apt-get install openssh-client -y
+
+clear
+
+yum install openssh-client -y
+
+clear
+
+apt-get install stunnel4 -y
+
+clear
+
+yum install stunnel4 -y
+
+clear
+
+apt-get install stunnel -y
+
+clear
+
+yum install stunnel -y
+
+clear
+
+echo -e "\033[0;31mCAPITURANDO  IP"
+
+ip=$(curl https://api.ipify.org/)
+
+echo $ip
+
+clear
+
+echo -e "\033[0;31m ######################################"
+
+echo -e "\033[0;34mCONTINUA APRETANDO ENTER
+
+echo -e "\033[0;31m #################"
+
+echo -e "\033[0;34mSTART ENTER"
+
+echo -e "\033[0;31m ######################################"
+
+sleep 1
+
+echo -e "\033[0;31m ######################################"
+
+echo -e "\033[1;34mGENERANDO CERTIFICADO"
+
+echo -e "\033[0;31m #################"
+
+echo -e "\033[1;34mGENERANDO CERTIFICADO"
+
+echo -e "\033[0;31m ######################################"
+
+sleep 1
+
+openssl genrsa 2048 > stunnel.key
+
+openssl req -new -key stunnel.key -x509 -days 1000 -out stunnel.crt
+
+echo -e "\033[0;31m ######################################"
+
+echo -e "\033[1;34mCREANDO NUEVO CERTIFICADO"
+
+echo -e "\033[0;31m #################"
+
+echo -e "\033[1;34mCREATINGA   NEW   CONFIGURATION"
+
+echo -e "\033[0;31m ######################################"
+
+sleep 2
+
+rm /etc/stunnel/stunnel.conf
+
+clear
+
+rm /etc/default/stunnel4
+
+clear
+
+cat stunnel.crt stunnel.key > stunnel.pem 
+
+mv stunnel.pem /etc/stunnel/
+
+clear
+
+echo -e "\033[1;34mDIGITE LA PORTA  QUE  DESEA"
+
+echo -e "\033[1;34mPUERTO SSL"
+
+read -p ": " port
+
+clear
+
+echo -e "\033[1;33m ######################################"
+
+echo -e "\033[1;31mCONFIGURANDO  STUNNEL.CONF"
+
+echo -e "\033[1;33m #################"
+
+echo -e "\033[1;31mCONFIGURING THE  STUNNEL.CONF"
+
+echo -e "\033[1;33m ######################################"
+
+sleep 1
+
+echo -e "\033[1;34m ###"
+
+sleep 1
+
+echo -e "\033[1;34m #########"
+
+sleep 1
+
+echo -e "\033[1;34m ################"
+
+sleep 1
+
+echo -e "\033[1;34m ########################"
+
+sleep 1
+
+echo -e "\033[1;34m ##################################"
+
+sleep 1
+
+echo "client = no " >> /etc/stunnel/stunnel.conf
+
+echo "[ssh] " >> /etc/stunnel/stunnel.conf
+
+echo "cert = /etc/stunnel/stunnel.pem " >> /etc/stunnel/stunnel.conf
+
+echo "accept = $port " >> /etc/stunnel/stunnel.conf
+
+echo "connect = 127.0.0.1:22" >> /etc/stunnel/stunnel.conf
+
+echo -e "\033[0;31m ######################################"
+
+echo -e "\033[1;34mCONFIGURANDO STUNNEL4"
+
+echo -e "\033[0;31m ###################"
+
+echo -e "\033[1;34mCONFIGURING  THE  STUNNEL"
+
+echo -e "\033[1;31m ######################################"
+
+sleep 1
+
+echo "ENABLED=1 " >> /etc/default/stunnel4
+
+echo "FILES="/etc/stunnel/*.conf" " >> /etc/default/stunnel4
+
+echo "OPTIONS="" " >> /etc/default/stunnel4
+
+echo "PPP_RESTART=0" >> /etc/default/stunnel4
+
+echo -e "\033[0;31m ######################################"
+
+echo -e "\033[1;34mINICIANDO  STUNNEL4"
+
+echo -e "\033[0;31m ###################"
+
+echo -e "\033[1;34mSTARTING  THE  STUNNEL4"
+
+echo -e "\033[0;31m ######################################"
+
+sleep 1
+
+echo -e "\033[0;31m ######################################"
+
+echo -e "\033[1;34m ##### VAN A OCURRIR  ERORES ES NORMAL AGUARDE...######"
+
+echo -e "\033[0;31m ######################################"
+
+sleep 1
+
+service ssh start 1>/dev/null 2 /dev/null
+
+/etc/init.d/ssh start 1>/dev/null 2 /dev/null
+
+service sshd start 1>/dev/null 2 /dev/null
+
+/etc/init.d/sshd start 1>/dev/null 2 /dev/null
+
+service sshd restart 1>/dev/null 2 /dev/null
+
+/etc/init.d/sshd restart 1>/dev/null 2 /dev/null
+
+service ssh restart 1>/dev/null 2 /dev/null
+
+/etc/init.d/ssh restart 1>/dev/null 2 /dev/null
+
+service stunnel4 start 1>/dev/null 2 /dev/null
+
+/etc/init.d/stunnel4 start 1>/dev/null 2 /dev/null
+
+service stunnel4 restart 1>/dev/null 2 /dev/null
+
+/etc/init.d/stunnel4 restart 1>/dev/null 2 /dev/null
+
+systemctl start stunnel4 1>/dev/null 2 /dev/null
+
+systemctl restart stunnel 1>/dev/null 2 /dev/null
+
+clear
+
+echo -e "\033[1;34m #######OCORREU UNS ERROS NORMAIS PRONTO###############"
+
+sleep 2
+
+echo -e "\033[1;34m ###########REINICIADO...###########"
+
+clear
+
+echo -e "\033[0;31m ######################################"
+
+echo -e "\033[1;34mCONFIFURACION TERMINADA"
+
+echo -e "\033[0;31m ###################"
+
+echo -e "\033[1;34mSUCESS  TEST"
+
+echo -e "\033[0;31m ######################################"
+
+echo -e "\033[1;34m- - - - -> \033[01;34mSU IP HOST:\033[0m $ip"
+
+echo -e "\033[1;34m- - - - -> \033[01;34mPORT SSL:\033[0m $port"
+
+sleep 1
+
+echo -e "\033[1;31mFAVOR DE HACER UN REBOOT"
+
+sleep 2
+
+echo -e "\033[1;34m- - ->>JORGE BARBA \033[01;34m@Jorge_Barba"
+
+echo -e "\033[1;34m- - ->>EDITADO POR  \033[01;34m @Jorge_Barba"
+
+sleep 1
